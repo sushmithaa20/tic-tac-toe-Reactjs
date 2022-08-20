@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Done from './Done'
 
 function Square(props) {
   return (
@@ -10,6 +11,10 @@ function Square(props) {
       {props.value}
       </button>
   );
+}
+
+function start(){
+  
 }
 
 class Board extends React.Component {
@@ -42,26 +47,37 @@ class Board extends React.Component {
     );
   }
 
+  
   render() {
    
     const winner = calculateWinner(this.state.squares);
+    var player;
     let status;
     if(winner)
       {
         status= "winner :" +winner;
+        if(winner=== 'X'){player=1;}
+        else{player=2;}
+      
+        
       }
     else
       {
-        status ='Next player :' +(this.state.xIsNext ? 'X' : 'O')
+        status ='Next player :' +(this.state.xIsNext ? '1' : '2')
+       
       }
-      if(!this.state.squares.includes(null))
+      if(!this.state.squares.includes(null) && !winner)
       {
         status = "Draw"
+        player="Draw"
       }
+
 
     return (
       <div>
+        
         <h2 >TiC-TAC-TOE</h2>
+        <div id="h"></div>
         <div className="status">{status}</div>
         <div className="box">
         <div className="board-row">
@@ -80,9 +96,16 @@ class Board extends React.Component {
           {this.renderSquare(8)}
         </div>
         </div>
-      <p> Refresh to pay Again &#128512;</p>
       
+      { winner &&
+        (
+          < Done winner = {player}
+                  board ={Board}
+                  />
+        )
+      }
       </div>
+      
     );
   }
 }
